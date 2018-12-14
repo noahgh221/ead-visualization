@@ -28,10 +28,6 @@ for file in sorted(glob.glob("*.xml")):
 	except:
 		aleph_id = "NULL"
 
-	#url = eadid.get('url')
-	#date = os.path.getmtime(files)
-	#lastmod = datetime.datetime.fromtimestamp(int(date)).strftime('%Y-%m-%d')
-
 	title = root.find(".//{0}archdesc/{0}did/{0}unittitle".format(namespace)).text.encode("utf-8")
 	title = title.replace('\n','').strip()
 	extent_info = root.find(".//{0}archdesc/{0}did/{0}physdesc/{0}extent".format(namespace)).text.encode("utf-8")
@@ -82,8 +78,7 @@ for file in sorted(glob.glob("*.xml")):
 	unicode_data = utf8_text.decode('utf8')
 	characters_in_file = len(unicode_data)
 
-	#collection-level scopecontent charcater count
-	#CONFIRM THAT THIS IS GETTING ALL <P>S AND NOT JUST THE FIRST ONE
+	#collection-level scopecontent word count
 	collection_level_scopecontent_words = 0
 	try:
 		for scopecontent in root.findall(".//{0}archdesc/{0}scopecontent/{0}p".format(namespace)):
@@ -91,6 +86,7 @@ for file in sorted(glob.glob("*.xml")):
 	except:
 		pass
 
+	#bioghist word count
 	bioghist_word_count = 0
 	try:
 		for bioghist in root.findall(".//{0}archdesc/{0}bioghist/{0}p".format(namespace)):
@@ -98,6 +94,7 @@ for file in sorted(glob.glob("*.xml")):
 	except:
 		pass
 
+	#component-level scopecontent word count
 	dsc_scopecontent_word_count = 0
 	try:
 		for dsc_scopecontent in root.findall(".//{0}dsc//{0}scopecontent/{0}p".format(namespace)):
@@ -106,7 +103,7 @@ for file in sorted(glob.glob("*.xml")):
 		pass
 
 
-	#Calculate number of subjects
+	#Calculate number of controlaccess terms
 	control_access_count = 0
 	for subject_term in root.iter("{0}subject".format(namespace)):
 		control_access_count = control_access_count + 1
